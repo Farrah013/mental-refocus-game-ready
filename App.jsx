@@ -45,20 +45,12 @@ function playSound(name) {
 function TopographicBackground({ children }) {
   return (
     <div
-      style={{
-        backgroundImage: `url(${process.env.PUBLIC_URL}/immersion-lines.svg)`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontFamily: "sans-serif",
-        padding: "1rem",
-      }}
+      className="fixed inset-0 bg-cover bg-center"
+      style={{ backgroundImage: 'url("/immersion-lines.svg")' }}
     >
-      {children}
+      <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
+        {children}
+      </div>
     </div>
   );
 }
@@ -170,24 +162,28 @@ export default function ADHDRefocusGame() {
           <p>Stage: {stage}</p>
 
           {/* Score + Shape in one group */}
-          <div className="flex items-center">
-            <p className="mr-4">Score: {score}</p>
-            <div className="w-16 h-16">
-              <AnimatePresence>
-                {isFlashing && currentShape && (
-                  <ShapeFlasher {...currentShape} key={JSON.stringify(currentShape)} />
-                )}
-              </AnimatePresence>
-            </div>
-          </div>
-
-          <button
-            onClick={() => setMuted((m) => !m)}
-            className="text-sm text-gray-600 underline"
-          >
-            {muted ? "Unmute" : "Mute"}
-          </button>
-        </div>
+          <div className="flex items-center justify-between mb-4">
+  <div className="flex items-center space-x-6">
+    <p>Stage: {stage}</p>
+    <p>Score: {score}</p>
+    <div className="w-16 h-16">
+      <AnimatePresence>
+        {isFlashing && currentShape && (
+          <ShapeFlasher
+            {...currentShape}
+            key={JSON.stringify(currentShape)}
+          />
+        )}
+      </AnimatePresence>
+    </div>
+  </div>
+  <button
+    onClick={() => setMuted((m) => !m)}
+    className="text-sm text-gray-600 underline"
+  >
+    {muted ? "Unmute" : "Mute"}
+  </button>
+</div>
 
         {/* Only show the recall buttons or “Get ready” */}
         {!isFlashing && flashHistory.length > 0 ? (
